@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import views
 
+#  Refer to views.py
 urlpatterns = [
     path('', views.store, name='store'),
 

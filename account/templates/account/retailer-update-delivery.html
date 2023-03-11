@@ -1,0 +1,70 @@
+{% extends "./retailer-base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+  <style>
+    body{
+      background-color: gray;
+    }
+
+  </style>
+
+
+  <body >
+    <br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+      <h3>Update Delivery Status</h3>
+      <hr>
+      <p>Update delivery status for {{orderitem.order}}</p>
+      <br>
+
+      <form id="update-delivery" method="POST" autocomplete="off">
+          {% csrf_token %}
+          <div class="form-field">
+            <select id="delivery-status" class="form-control">
+              {% for status in statuses %}
+                {% if status == orderitem.status %}
+                  <option value="{{status}}" selected>{{status}}</option>
+                {% else %}
+                  <option value="{{status}}">{{status}}</option>
+                {% endif %} 
+              {% endfor%}
+            </select>
+          </div> 
+          <button type="submit" class="btn btn-primary navbar-btn text-white">Update Status</button>
+          <br><br>
+          <a class="btn btn-primary navbar-btn text-white" type="button"  href="{% url 'retailer-dashboard' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go back </a>
+      </form>
+
+    </div>
+
+    
+  </body>
+  <br><br>
+
+  <script>
+    $(document).on('submit', '#update-delivery',function(e){
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '{% url "retailer-update-delivery" oid=orderitem.pk %}',
+        data: {
+          status: $('#delivery-status').val(),                               
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function(json){
+          window.location.replace("{% url 'retailer-dashboard' %}")
+        }, 
+        error: function(xhr, errmsg, err){
+         
+        }
+      });
+    })
+  </script>
+
+
+
+{% endblock %}

@@ -39,9 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'store',  # Django app
-    'account',
+    'cart',  # Django app
+    'mathfilters',
+    'account',  # Django app
+    'payment',  # Django app
     'crispy_forms',
 ]
+
+# To unblock paypal popups - NB!
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -69,6 +75,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'store.views.categories',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -140,5 +147,5 @@ EMAIL_PORT = '587'
 EMAIL_USE_TLS = 'True'
 
 # Be sure to read the guide in the resources folder
-EMAIL_HOST_USER = 'zanelegendkiller@gmail.com'  # enter your gmail address
-EMAIL_HOST_PASSWORD = 'baunphxcrbfpcngf'  # Enter app password
+EMAIL_HOST_USER = 'techdev500@gmail.com'  # enter your gmail address
+EMAIL_HOST_PASSWORD = 'puzgihqlvobntpeb'  # Enter app password

@@ -1,0 +1,223 @@
+
+{% extends "./admin-base.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+  <style>
+    img{
+      width: 70px;
+      height: 100px;
+      align-self: center;
+    }
+
+    .center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+    }
+    
+    /* body{
+      background-color: gray;
+    }
+    .card {
+      border-radius:20px;
+      width:500px;
+    } */
+
+  </style>
+
+  <div class="row">
+    <div class="col">
+      <h5>ORDERS</h5> 
+      <a class="btn btn-sm btn-info" href="{% url 'admin-download-orders' %}">Download Orders Table</a>
+    </div>    
+       
+    <div class="card card-body">        
+      <table id="order-table" class="display">
+        <thead>
+          <tr>
+            <th>Customer Id</th>            
+            <th>Product</th>
+            <th>Retailer</th>
+            <th>Units Sold</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Date Ordered</th>            
+            
+          </tr>
+        </thead>
+        <tbody>
+          {% for orderitem in orderitems %}
+            <tr>
+              <td>{{orderitem.user.username}}</td>
+              <td>{{orderitem.product}}</td>
+              <td>{{orderitem.product.retailer}}</td>
+              <td>{{orderitem.quantity}}</td>
+              <td>${{orderitem.total}}</td>
+              <td>{{orderitem.status}}</td>
+              <td>{{orderitem.order.date_ordered}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>    
+      </table>      
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-1">
+      <h5>CATEGORIES:</h5>
+    </div>  
+    <form id="add-category" method="POST" autocomplete="off">
+      <div class="col-2">  
+        {% csrf_token %}      
+        <div class="form-field">
+          <input class="form-control" type="text" class="input-text" id="categoryname" placeholder="Category*" required/>
+        </div>       
+      </div>      
+      <div class="col">          
+        <button type="submit" class="btn btn-sm btn-info">Add Category</button>       
+      </div> 
+    </form>
+    <div class="card card-body">
+      <table id="category-table" class="table table-sm">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>          
+          {% for category in categories %}
+          <tr>
+            <td>{{category.name}}</td>
+            <td> 
+              <a class="btn btn-sm btn-info"  href="{% url 'admin-delete-category' pk=category.pk %}"> Delete </a>
+            </td>
+          </tr>
+          {% endfor %}          
+        </tbody>
+      </table>  
+  </div>
+
+
+  <div class="row">
+    <h5>RETAILERS:</h5>
+    <div class="card card-body">
+      <table id="retailer-table" class="table table-sm">
+        <thead>
+          <tr>
+            <th>Detail</th>
+            <th>Retailer</th>
+            <th>Approved</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for retailer in retailers %}
+            <tr>   
+              <td><a class="btn btn-sm btn-info" href="{% url 'admin-retailer-profile' uid=retailer.pk %}">View</a></td>
+              <td>{{retailer.username}}</td>
+              <td>{{retailer.is_active}}</td>
+              <td>{{retailer.email}}</td>
+              <td><a class="btn btn-sm btn-info"  href="{% url 'admin-approve-retailer' pk=retailer.pk %}"> Update Approval </a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+    <h5>CUSTOMERS:</h5>    
+    <div class="card card-body">
+      <table id="customer-table" class="table table-sm">
+        <thead>
+          <tr>
+            <th>Detail</th>
+            <th>Customer</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for customer in customers %}
+            <tr>   
+              <td><a class="btn btn-sm btn-info" href="{% url 'admin-customer-profile' uid=customer.pk %}">View</a></td>
+              <td>{{customer.username}}</td>
+              <td>{{customer.email}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  
+  <div class="row">
+    <h5>PRODUCTS</h5>
+    <div class="card card-body">        
+      <table id="product-table" class="display">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Category</th>
+            <th>Retailer</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>         
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+            <tr>
+              <td><img class="center" alt="{{product.title}}" src="{{ product.image.url }}"></td>
+              <td>{{product.category}}</td>
+              <td>{{product.retailer}}</td>
+              <td>{{product.title}}</td>
+              <td>{{product.description}}</td>
+              <td>{{product.quantity}}</td>
+              <td>{{product.price}}</td>              
+            </tr>
+          {% endfor %}
+        </tbody>    
+      </table>
+    </div>
+  </div>
+
+  <script>
+    $(document).on('submit', '#add-category',function(e){
+      e.preventDefault();
+      console.log("Clicked")
+      $.ajax({
+        type: 'POST',
+        url: '{% url "admin-add-category" %}',
+        data: {
+          categoryname: $('#categoryname').val(),                      
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function(json){
+          window.location.replace("{% url 'admin-dashboard' %}")
+        }, 
+        error: function(xhr, errmsg, err){
+         
+        }
+      });
+    })    
+    $(document).ready(function () {
+      $('#customer-table').DataTable();
+      $('#retailer-table').DataTable();
+      $('#category-table').DataTable();
+      $('#order-table').DataTable();      
+      $('#product-table').DataTable();      
+    });
+  </script>
+
+{% endblock %}

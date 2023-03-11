@@ -2,8 +2,6 @@
 
 {% load static %}
 
-{% load crispy_forms_tags %}
-
 {% block content %}
 
   <style>
@@ -22,15 +20,20 @@
       <br>
       <br>
 
-      <form method="POST" autocomplete="off">
+      <form id="login-form" method="POST" autocomplete="off">
           {% csrf_token %}
-          {{form.username | as_crispy_field}}
-          <br>
-          {{form.password | as_crispy_field}}
-          <br>
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="username" placeholder="Username*" required/>
+          </div>          
+          <br><br>          
+          <div class="form-field">
+            <input class="form-control" type="password" class="input-text" id="password" placeholder="Password*" required/>    
+          </div>                
+          <br><br>
           <button type="submit" class="btn btn-primary navbar-btn text-white w-100"><i class="fa fa-key" aria-hidden="true"></i>&nbsp;Login</button>
       
           <hr><br>
+          
           <div class="text-center">
             <a href="{% url 'register' %}">Don't have an account?</a>
             <br><br>
@@ -44,6 +47,27 @@
   </body>
   <br><br>
 
+  <script>
+    $(document).on('submit', '#login-form',function(e){
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '{% url "my-login-action" %}',
+        data: {
+          username: $('#username').val(),          
+          password: $('#password').val(),                  
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function(json){
+          window.location.replace("{% url 'dashboard' %}")
+        }, 
+        error: function(xhr, errmsg, err){
+         
+        }
+      });
+    })
+  </script>
 
 
 

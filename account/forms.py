@@ -5,9 +5,20 @@ from django import forms
 
 from django.forms.widgets import PasswordInput, TextInput
 
+from store.models import Product
+
+# Retailer form
+
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['title', 'category', 'description',
+                  'slug', 'quantity', 'price', 'image']
+        exclude = ['retailer']
+
+
 # Registration
-
-
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = User

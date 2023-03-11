@@ -1,0 +1,143 @@
+
+{% extends "./retailer-base.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+  <style>
+    img{
+      width: 70px;
+      height: 100px;
+      align-self: center;
+    }
+
+  </style>
+
+  <div class="row">
+    <div class="col">
+      <h5>PRODUCTS</h5> 
+      <a class="btn btn-sm btn-info"  href="{% url 'retailer-download-products' uid=retailer.pk %}"> Download </a>
+      <a class="btn btn-sm btn-info"  href="{% url 'retailer-product' pid=-1 %}"> Add product </a>
+    </div>    
+    <div class="card card-body">        
+      <table id="product-table" class="display">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Category</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Update</th>  
+            <th>Delete</th>       
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+            <tr>
+              <td><img alt="{{product.title}}" src="{{ product.image.url }}"></td>
+              <td>{{product.category}}</td>
+              <td>{{product.title}}</td>
+              <td>{{product.description}}</td>
+              <td>{{product.quantity}}</td>
+              <td>{{product.price}}</td> 
+              <td><a class="btn btn-sm btn-info"  href="{% url 'retailer-product' pid=product.pk %}"> Update </a></td>   
+              <td><a class="btn btn-sm btn-info"  href="{% url 'retailer-delete-product' pk=product.pk %}"> Delete </a></td>                 
+            </tr>
+          {% endfor %}
+        </tbody>    
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <h5>ORDERS</h5>
+    <div class="card card-body">        
+      <table id="order-table" class="display">
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Units Sold</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Date Ordered</th>  
+            <th>Action</th>          
+          </tr>
+        </thead>
+        <tbody>
+          {% for orderitem in retailerorderitems %}
+            <tr>
+              <td>{{orderitem.order}}</td>
+              <td>{{orderitem.user.username}}</td>
+              <td>{{orderitem.product}}</td>
+              <td>{{orderitem.quantity}}</td>
+              <td>{{orderitem.price}}</td>
+              <td>{{orderitem.total}}</td>
+              <td>{{orderitem.status}}</td>
+              <td>{{orderitem.order.date_ordered}}</td>
+              <td><a class="btn btn-sm btn-info"  href="{% url 'retailer-update-delivery' oid=orderitem.pk %}"> Update Delivery </a></td>      
+            </tr>
+          {% endfor %}
+        </tbody>    
+      </table>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col">
+      <h5>Details</h5>      
+      <a class="btn btn-sm btn-info"  href="{% url 'retailer-profile' uid=retailer.pk %}"> Update </a>
+    </div>
+    <div class="card card-body">
+      <table>        
+        <tr>
+          <td>Username: </td>
+          <td>{{details.user.username}}</td>
+        </tr>
+        <tr>
+          <td>Full name: </td>
+          <td>{{details.full_name}}</td>
+        </tr>
+        <tr>
+          <td>Open time: </td>
+          <td>{{details.open_time}}</td>
+        </tr>
+        <tr>
+          <td>Close time: </td>
+          <td>{{details.close_time}}</td>
+        </tr>
+        <tr>
+          <td>Address: </td>
+          <td>{{details.address}}</td>
+        </tr>
+        <tr>
+          <td>Account type: </td>
+          <td>{{details.account_type}}</td>
+        </tr>
+        <tr>
+          <td>Account number: </td>
+          <td>{{details.account_number}}</td>
+        </tr>
+        <tr>
+          <td>Bank: </td>
+          <td>{{details.bank_name}}</td>
+        </tr>
+      </table>      
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $('#product-table').DataTable();
+      $('#order-table').DataTable();      
+    });
+  </script>
+
+{% endblock %}

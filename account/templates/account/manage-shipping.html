@@ -1,0 +1,92 @@
+{% include "store/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+  <style>
+    body{
+      background-color: gray;
+    }
+
+  </style>
+
+
+  <body >
+    <br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+      <h3>Manage shipping</h3>
+      <p>Please fill in your shipping address. </p>
+    
+      <hr>
+
+      <form id="shipping-post" method="POST" autocomplete="off">
+          {% csrf_token %}
+          <div class="form-field">
+            Full Name: <input class="form-control" type="text" class="input-text" id="full_name" placeholder="Full Name*" value="{{shipping.full_name}}" required/>
+          </div> 
+          <br>
+          <div class="form-field">
+            Email: <input class="form-control" type="text" class="input-text" id="email" placeholder="Email*" value="{{shipping.email}}" required/>
+          </div> 
+          <br>
+          <div class="form-field">
+            Address1: <input class="form-control" type="text" class="input-text" id="address1" placeholder="Address1*" value="{{shipping.address1}}" required/>
+          </div> 
+          <br>
+          <div class="form-field">
+            Address2: <input class="form-control" type="text" class="input-text" id="address2" placeholder="Address2*" value="{{shipping.address2}}" required/>
+          </div> 
+          <br>
+          <div class="form-field">
+            City: <input class="form-control" type="text" class="input-text" id="city" placeholder="City*" value="{{shipping.city}}" required/>
+          </div> 
+          <br>
+          <div class="form-field">
+            State: <input class="form-control" type="text" class="input-text" id="state" placeholder="State*" value="{{shipping.state}}" required/>
+          </div> 
+          <br>
+          <div class="form-field">
+            Zipcode: <input class="form-control" type="text" class="input-text" id="zipcode" placeholder="Zipcode*" value="{{shipping.zipcode}}" required/>
+          </div> 
+          <br>
+          <button type="submit" class="btn btn-primary navbar-btn text-white w-100">Update shipping address</button>
+      
+          <hr><br>
+
+        </form>
+
+    </div>
+  </body>
+  <br><br>
+
+  <script>
+    $(document).on('submit', '#shipping-post',function(e){
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '{% url "manage-shipping-action" %}',
+        data: {
+          full_name: $('#full_name').val(),          
+          email: $('#email').val(),
+          address1: $('#address1').val(),
+          address2: $('#address2').val(),   
+          city: $('#city').val(),   
+          state: $('#state').val(),    
+          zipcode: $('#zipcode').val(),        
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function(json){
+          window.location.replace("{% url 'dashboard' %}")
+        }, 
+        error: function(xhr, errmsg, err){
+         
+        }
+      });
+    })
+  </script>
+
+
+
+{% endblock %}

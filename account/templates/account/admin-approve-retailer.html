@@ -1,0 +1,66 @@
+{% extends "./admin-base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+  <style>
+    body{
+      background-color: gray;
+    }
+
+  </style>
+
+
+  <body >
+    <br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+      <h3>Update Retailer Status</h3>
+      <hr>
+      <p>Approve or disapprove status for {{retailer.username}}</p>
+      <br>
+
+      <form id="approve-retailer" method="POST" autocomplete="off">
+          {% csrf_token %}
+          <div class="form-field">
+            <select id="retailer-status" class="form-control">
+              {% for status in statuses %}
+                <option value="{{status}}">{{status}}</option>                            
+              {% endfor%}
+            </select>
+          </div> 
+          <button type="submit" class="btn btn-primary navbar-btn text-white">Update Status</button>
+          <br><br>
+          <a class="btn btn-primary navbar-btn text-white" type="button"  href="{% url 'admin-dashboard' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go back </a>
+      </form>
+
+    </div>
+
+    
+  </body>
+  <br><br>
+
+  <script>
+    $(document).on('submit', '#approve-retailer',function(e){
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '{% url "admin-approve-retailer" pk=retailer.pk %}',
+        data: {
+          status: $('#retailer-status').val(),                               
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function(json){
+          window.location.replace("{% url 'admin-dashboard' %}")
+        }, 
+        error: function(xhr, errmsg, err){
+         
+        }
+      });
+    })
+  </script>
+
+
+
+{% endblock %}

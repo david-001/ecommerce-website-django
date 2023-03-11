@@ -28,12 +28,16 @@
       <hr>
       <br>
 
-      <form method="POST" autocomplete="off">
+      <form id="profile-form" method="POST" autocomplete="off">
           {% csrf_token %}
-          {{user_form.username | as_crispy_field}}
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="username" placeholder="Username*" required/>
+          </div>          
           <br><br>
-          {{user_form.email | as_crispy_field}}
-          <br><br>
+          <div class="form-field">
+            <input class="form-control" type="email" class="input-text" id="email" placeholder="Email*" required/>     
+          </div>     
+          <br><br>          
           <button type="submit" class="btn btn-primary navbar-btn text-white">Update your account</button>
       </form>
 
@@ -51,6 +55,27 @@
   </body>
   <br><br>
 
+  <script>
+    $(document).on('submit', '#profile-form',function(e){
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '{% url "profile-management-action" %}',
+        data: {
+          username: $('#username').val(),          
+          email: $('#email').val(),                  
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function(json){
+          window.location.replace("{% url 'dashboard' %}")
+        }, 
+        error: function(xhr, errmsg, err){
+         
+        }
+      });
+    })
+  </script>
 
 
 

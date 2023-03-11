@@ -13,7 +13,7 @@
 
             <div class="col-md-5 col-lg-5 order-md-first bg-light">
             
-                <img class="img-fluid mx-auto d-block" alt="Responsive image" src="{{ product.image.url }}"> <!-- Product image -->
+                <img class="img-fluid mx-auto d-block" alt="{{product.title}}" src="{{ product.image.url }}"> <!-- Product image -->
             
             </div>
 
@@ -48,31 +48,38 @@
                     <div class="col">
               
                         <div class="row p-3">
+
+                            <div class="col-3">
+                              <label for="select">Remaining Units:</label>                                
+                              &nbsp; 
+                              {{product.quantity}}
+                            </div>
               
-                            <div class="col-6">
-              
+                            <div class="col-2">
                                
                                 <label for="select">Qty</label>
                                 
                                 &nbsp; 
                                
-                                <select id="select">
-              
-                                    <option value="1">1</option>
-              
-                                    <option value="2">2</option>
-              
-                                    <option value="3">3</option>
-              
-                                    <option value="4">4</option>
-              
-                                </select>
+                                
+                                  <select id="select">
+                
+                                      <option value="1">1</option>
+                
+                                      <option value="2">2</option>
+                
+                                      <option value="3">3</option>
+                
+                                      <option value="4">4</option>
+                
+                                  </select>
+                                
 
                             </div>
 
-                            <div class="col-6 text-end">
+                            <div class="col-7 text-end">
                                 
-                                <button type="button" id="add-button" value="" class="btn btn-secondary btn-sm">
+                                <button type="button" id="add-button" value="{{product.id}}" class="btn btn-secondary btn-sm">
                         
                                 Add to cart 
                             
@@ -96,5 +103,28 @@
     <br>
 
 </div>
+
+<script>
+  // Add button
+  $(document).on('click','#add-button', function(e){
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "cart-add" %}',
+      data: {
+        product_id: $('#add-button').val(),
+        product_quantity: $('#select option:selected').text(),
+        csrfmiddlewaretoken: "{{csrf_token}}",
+        action: 'post'
+      },
+      success: function(json){
+        document.getElementById("cart-qty").textContent = json.qty
+      }, 
+      error: function(xhr, errmsg, err){
+
+      }
+    });
+  })
+</script>
 
 {% endblock %}

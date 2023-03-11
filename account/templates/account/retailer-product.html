@@ -1,0 +1,55 @@
+{% include "account/retailer-base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <style>
+    body{
+      background-color: gray;
+    }
+
+  </style>
+
+
+  <body >
+    <br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+      <h3>Product</h3>
+      <p>Please fill out product details. </p>
+    
+      <hr>
+
+      <form id="product-form" method="POST" autocomplete="off" enctype="multipart/form-data">
+          {% csrf_token %}          
+          {{form.title | as_crispy_field}}
+          <br>
+          {{form.category | as_crispy_field}}
+          <br>
+          {{form.description | as_crispy_field}} 
+          <br>
+          {{form.slug | as_crispy_field}} 
+          <br>
+          {{form.quantity | as_crispy_field}} 
+          <br>
+          {{form.price | as_crispy_field}}
+          <br>
+          {{form.image | as_crispy_field}}
+          <hr><br>
+          <button type="submit" class="btn btn-primary navbar-btn text-white w-100">Update Product</button>
+              
+        </form>
+
+    </div>
+  </body>
+  <br><br>
+
+  <script>
+        
+  </script>
+
+
+
+{% endblock %}

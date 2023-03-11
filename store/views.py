@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
+# Refer to urls.py and templates/store
+
 
 def store(request):
     all_products = Product.objects.all()

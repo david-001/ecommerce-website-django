@@ -2,8 +2,6 @@
 
 {% load static %}
 
-{% load crispy_forms_tags %}
-
 {% block content %}
 
   <style>
@@ -23,15 +21,19 @@
       <br>
       <br>
 
-      <form method="POST" autocomplete="off">
+      <form id="register-form" method="POST" autocomplete="off">
           {% csrf_token %}
-          {{form.username | as_crispy_field}}
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="username" placeholder="Username*" required/>
+          </div>          
           <br><br>
-          {{form.email | as_crispy_field}}
+          <div class="form-field">
+            <input class="form-control" type="email" class="input-text" id="email" placeholder="Email*" required/>     
+          </div>     
           <br><br>
-          {{form.password1 | as_crispy_field}}
-          <br>
-          {{form.password2 | as_crispy_field}}
+          <div class="form-field">
+            <input class="form-control" type="password" class="input-text" id="password" placeholder="Password*" required/>    
+          </div>                
           <br><br>
           
           <button type="submit" class="btn btn-primary navbar-btn text-white w-100">Create account</button>
@@ -47,7 +49,28 @@
     
   </body>
   <br><br>
-
+  <script>
+    $(document).on('submit', '#register-form',function(e){
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '{% url "register-action" %}',
+        data: {
+          username: $('#username').val(),
+          email: $('#email').val(),
+          password: $('#password').val(),                  
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function(json){
+          window.location.replace("{% url 'email-verification-sent' %}")
+        }, 
+        error: function(xhr, errmsg, err){          
+          window.location.replace("{% url 'email-verification-failed' %}")
+        }
+      });
+    })
+</script>
 
 
 

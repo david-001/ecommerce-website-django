@@ -1,0 +1,77 @@
+{% include "account/retailer-base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+  <style>
+    body{
+      background-color: gray;
+    }
+
+  </style>
+
+
+  <body >
+    <br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+      <h3>Create your retailer account</h3>
+      <h5>Sell your items today!</h5>
+
+      <br>
+      <br>
+
+      <form id="register-form" method="POST" autocomplete="off">
+          {% csrf_token %}
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="username" placeholder="Username*" required/>
+          </div>          
+          <br><br>
+          <div class="form-field">
+            <input class="form-control" type="email" class="input-text" id="email" placeholder="Email*" required/>     
+          </div>     
+          <br><br>
+          <div class="form-field">
+            <input class="form-control" type="password" class="input-text" id="password" placeholder="Password*" required/>    
+          </div>                
+          <br><br>
+          
+          <button type="submit" class="btn btn-primary navbar-btn text-white w-100">Create account</button>
+          <hr><br>
+          <div class="text-center">
+            <a href="{% url 'my-login' %}">Already have an account?</a>
+          </div>
+          
+        </form>
+
+    </div>
+
+    
+  </body>
+  <br><br>
+  <script>
+    $(document).on('submit', '#register-form',function(e){
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '{% url "retailer-register" %}',
+        data: {
+          username: $('#username').val(),
+          email: $('#email').val(),
+          password: $('#password').val(),                  
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function(json){
+          window.location.replace("{% url 'email-retailer-sent' %}")
+        }, 
+        error: function(xhr, errmsg, err){          
+          window.location.replace("{% url 'email-retailer-failed' %}")
+        }
+      });
+    })
+</script>
+
+
+
+{% endblock %}

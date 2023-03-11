@@ -1,0 +1,69 @@
+{% include "account/retailer-base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+  <style>
+    body{
+      background-color: gray;
+    }
+
+  </style>
+
+
+  <body >
+    <br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+      <h3>Login to your retailer account</h3>
+    
+      <br>
+      <br>
+
+      <form id="login-form" method="POST" autocomplete="off">
+          {% csrf_token %}
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="username" placeholder="Username*" required/>
+          </div>          
+          <br><br>          
+          <div class="form-field">
+            <input class="form-control" type="password" class="input-text" id="password" placeholder="Password*" required/>    
+          </div>                
+          <br><br>
+          <button type="submit" class="btn btn-primary navbar-btn text-white w-100"><i class="fa fa-key" aria-hidden="true"></i>&nbsp;Login</button>
+      
+          <hr><br>
+          
+        </form>
+
+    </div>
+
+    
+  </body>
+  <br><br>
+
+  <script>
+    $(document).on('submit', '#login-form',function(e){
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '{% url "retailer-login" %}',
+        data: {
+          username: $('#username').val(),          
+          password: $('#password').val(),                  
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function(json){
+          window.location.replace("{% url 'retailer-dashboard' %}")
+        }, 
+        error: function(xhr, errmsg, err){
+         
+        }
+      });
+    })
+  </script>
+
+
+
+{% endblock %}

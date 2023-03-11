@@ -1,0 +1,89 @@
+{% include "account/retailer-base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+  <style>
+    body{
+      background-color: gray;
+    }
+
+  </style>
+
+
+  <body >
+    <br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+      <h3>Profile</h3>
+      <p>Please fill out profile details. </p>
+    
+      <hr>
+
+      <form id="profile-form" method="POST" autocomplete="off">
+          {% csrf_token %}          
+          <div class="form-field">
+            Full name: <input class="form-control" type="text" class="input-text" id="full_name" placeholder="Full Name*" value="{{retailer.full_name}}" required/>
+          </div>           
+          <br>
+          <div class="form-field">            
+            Open time: <input class="form-control" type="text" class="input-text" id="open_time" placeholder="Open Time*" value="{{retailer.open_time}}" required/>
+          </div> 
+          <br>
+          <div class="form-field">
+            Close time: <input class="form-control" type="text" class="input-text" id="close_time" placeholder="Close Time*" value="{{retailer.close_time}}" required/>
+          </div> 
+          <br>
+          <div class="form-field">
+            Address: <input class="form-control" type="text" class="input-text" id="address" placeholder="Address*" value="{{retailer.address}}" required/>
+          </div> 
+          <div class="form-field">
+            Account type: <input class="form-control" type="text" class="input-text" id="account_type" placeholder="Account type*" value="{{retailer.account_type}}" required/>
+          </div> 
+          <div class="form-field">
+            Account number: <input class="form-control" type="text" class="input-text" id="account_number" placeholder="Account number*" value="{{retailer.account_number}}" required/>
+          </div> 
+          <div class="form-field">
+            Bank: <input class="form-control" type="text" class="input-text" id="bank_name" placeholder="Bank Name*" value="{{retailer.bank_name}}" required/>
+          </div> 
+          <br>
+          
+          <hr><br>
+          <button type="submit" class="btn btn-primary navbar-btn text-white w-100">Update Profile</button>
+              
+        </form>
+
+    </div>
+  </body>
+  <br><br>
+
+  <script>
+    $(document).on('submit', '#profile-form',function(e){
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '{% url "retailer-profile" uid=user.pk %}',
+        data: {          
+          full_name: $('#full_name').val(),
+          open_time: $('#open_time').val(),
+          close_time: $('#close_time').val(),
+          address: $('#address').val(),
+          account_type: $('#account_type').val(),
+          account_number: $('#account_number').val(),
+          bank_name: $('#bank_name').val(), 
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        },
+        success: function(json){
+          window.location.replace("{% url 'retailer-dashboard' %}")
+        }, 
+        error: function(xhr, errmsg, err){
+         
+        }
+      });
+    })
+  </script>
+
+
+
+{% endblock %}

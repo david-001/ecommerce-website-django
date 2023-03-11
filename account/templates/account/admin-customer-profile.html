@@ -1,0 +1,63 @@
+{% include "account/admin-base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+  <style>
+    body{
+      background-color: gray;
+    }
+
+  </style>
+
+
+  <body >
+    <br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+      <h3>Customer shipping info</h3>
+      <p>Please fill in your shipping address. </p>
+    
+      <hr>
+
+      <form id="profile-post" method="POST" autocomplete="off">
+          {% csrf_token %}
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="full_name" placeholder="Full Name*" value="{{shipping.full_name}}" disabled/>
+          </div> 
+          <br>
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="email" placeholder="Email*" value="{{shipping.email}}" disabled/>
+          </div> 
+          <br>
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="address1" placeholder="Address1*" value="{{shipping.address1}}" disabled/>
+          </div> 
+          <br>
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="address2" placeholder="Address2*" value="{{shipping.address2}}" disabled/>
+          </div> 
+          <br>
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="city" placeholder="City*" value="{{shipping.city}}" disabled/>
+          </div> 
+          <br>
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="state" placeholder="State*" value="{{shipping.state}}" disabled/>
+          </div> 
+          <br>
+          <div class="form-field">
+            <input class="form-control" type="text" class="input-text" id="zipcode" placeholder="Zipcode*" value="{{shipping.zipcode}}" disabled/>
+          </div> 
+          <br>
+          
+          <hr><br>
+
+        </form>
+
+    </div>
+  </body>
+  <br><br>
+
+
+{% endblock %}

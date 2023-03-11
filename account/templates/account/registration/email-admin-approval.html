@@ -1,0 +1,9 @@
+{% autoescape off %}
+Hi,
+
+A retailer has requested approval.
+Click on the link below to approve account
+
+http://{{domain}}{% url 'email-admin-approval' uidb64=uid token=token %}
+
+{% endautoescape %}

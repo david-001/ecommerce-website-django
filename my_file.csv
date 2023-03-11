@@ -1,0 +1,24 @@
+,0,1
+0,,
+1,,
+2,Paradigm,"Multi-paradigm: object-oriented,[1] procedural (imperative), functional, structured, reflective"
+3,Designed by,Guido van Rossum
+4,Developer,Python Software Foundation
+5,First appeared,20 February 1991; 31 years ago[2]
+6,,
+7,Stable release,3.11.1[3] / 6 December 2022; 25 days ago
+8,Preview release,3.12.0a3[3] / 6 December 2022; 25 days ago
+9,Typing discipline,"Duck, dynamic, strong typing;[4] gradual (since 3.5, but ignored in CPython)[5]"
+10,OS,"Windows, macOS, Linux/UNIX, Android[6][7] and more[8]"
+11,License,Python Software Foundation License
+12,Filename extensions,".py, .pyi, .pyc, .pyd, .pyw, .pyz (since 3.5),[9] .pyo (prior to 3.5)[10]"
+13,Website,python.org
+14,Major implementations,Major implementations
+15,"CPython, PyPy, Stackless Python, MicroPython, CircuitPython, IronPython, Jython","CPython, PyPy, Stackless Python, MicroPython, CircuitPython, IronPython, Jython"
+16,Dialects,Dialects
+17,"Cython, RPython, Starlark[11]","Cython, RPython, Starlark[11]"
+18,Influenced by,Influenced by
+19,"ABC,[12] Ada,[13] ALGOL 68,[14] APL,[15] C,[16] C++,[17] CLU,[18] Dylan,[19] Haskell,[20][15] Icon,[21] Lisp,[22] Modula-3,[14][17] Perl,[23] Standard ML[15]","ABC,[12] Ada,[13] ALGOL 68,[14] APL,[15] C,[16] C++,[17] CLU,[18] Dylan,[19] Haskell,[20][15] Icon,[21] Lisp,[22] Modula-3,[14][17] Perl,[23] Standard ML[15]"
+20,Influenced,Influenced
+21,"Apache Groovy, Boo, Cobra, CoffeeScript,[24] D, F#, Genie,[25] Go, JavaScript,[26][27] Julia,[28] Nim, Ring,[29] Ruby,[30] Swift[31]","Apache Groovy, Boo, Cobra, CoffeeScript,[24] D, F#, Genie,[25] Go, JavaScript,[26][27] Julia,[28] Nim, Ring,[29] Ruby,[30] Swift[31]"
+22,Python Programming at Wikibooks,Python Programming at Wikibooks
