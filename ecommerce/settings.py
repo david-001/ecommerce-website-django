@@ -147,5 +147,5 @@ EMAIL_PORT = '587'
 EMAIL_USE_TLS = 'True'
 
 # Be sure to read the guide in the resources folder
-EMAIL_HOST_USER = 'techdev500@gmail.com'  # enter your gmail address
+EMAIL_HOST_USER = 'techdev1200@gmail.com'  # enter your gmail address
 EMAIL_HOST_PASSWORD = 'puzgihqlvobntpeb'  # Enter app password
