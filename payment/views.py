@@ -5,11 +5,16 @@ from . models import ShippingAddress, Order, OrderItem, Status
 from cart.cart import Cart
 from django.http import JsonResponse
 import logging
+import dotenv
+dotenv.load_dotenv()
+import os
 
 # Create your views here.
 
 
 def checkout(request):
+    paypal_api = os.environ.get('PAYPAL_API')
+    paypal = {'paypal_api':paypal_api}
     # Users with accounts -- pre-filled the form
     if request.user.is_authenticated:
         try:
@@ -18,15 +23,15 @@ def checkout(request):
                 user=request.user.id)
             context = {'shipping': shipping_address}
             logging.warning(shipping_address)
-            return render(request, 'payment/checkout.html', context=context)
+            return render(request, 'payment/checkout.html', context=context,paypal=paypal)
 
         except:
             # Auntenticated users with no shipping information
-            return render(request, 'payment/checkout.html')
+            return render(request, 'payment/checkout.html',paypal=paypal)
 
     else:
         # Guest users
-        return render(request, 'payment/checkout.html')
+        return render(request, 'payment/checkout.html',paypal=paypal)
 
 
 def complete_order(request):
